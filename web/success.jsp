@@ -1,3 +1,4 @@
+<%@ page import="org.mike.dto.User" %>
 <%--
   Created by IntelliJ IDEA.
   User: User
@@ -12,5 +13,9 @@
 </head>
 <body>
 <h3>Login successful!</h3>
+<%
+    User user = (User) request.getAttribute("user");
+%>
+Hello <%=user.getUserName()%>!
 </body>
 </html>

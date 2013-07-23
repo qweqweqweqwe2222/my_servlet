@@ -1,7 +1,9 @@
 package org.mike;
 
+import org.mike.dto.User;
 import org.mike.service.LoginService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +18,10 @@ import java.io.IOException;
  */
 @javax.servlet.annotation.WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends javax.servlet.http.HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("login.jsp");
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        resp.sendRedirect("login.jsp");
+//    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +34,12 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         boolean result = loginService.authenticate(userId, password);
 
         if (result) {
-            resp.sendRedirect("success.jsp");
+            User user = loginService.getUserDetails(userId);
+            req.setAttribute("user", user);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("success.jsp");
+            dispatcher.forward(req, resp);
+
+            //resp.sendRedirect("success.jsp");
         } else {
             resp.sendRedirect("login.jsp");
         }
